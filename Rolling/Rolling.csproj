@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/ivsaez/Rolling</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="isz-Identification" Version="1.2.1" />
+    <PackageReference Include="isz-Identification" Version="1.4.0" />
   </ItemGroup>
 
 </Project>

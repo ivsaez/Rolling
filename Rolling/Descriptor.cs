@@ -4,6 +4,8 @@ namespace Rolling
 {
     public class Descriptor
     {
+        public static readonly string MainRole = "main";
+
         public ISet<string> Names { get; }
 
         public bool IsEmpty => !Names.Any();
@@ -17,22 +19,19 @@ namespace Rolling
             return new Descriptor(roles);
         }
 
-        public bool IsMatched(Roles roles)
-        {
-            if (IsEmpty) return roles.IsEmpty;
+        public bool IsMatched(Roles roles) =>
+            Names.All(name => roles.HasMatched(name))
+            && roles.HasMatched(MainRole);
 
-            return Names.All(name => roles.Has(name));
-        }
-
-        public Permutations GetPermutations(ISet<IIdentifiable> identifiables)
+        public Permutations GetPermutations(IIdentifiable main, ISet<IIdentifiable> identifiables)
         {
             if (IsEmpty)
                 return new Permutations()
-                    .With(Roles.Empty);
+                    .With(Roles.Empty.Match(MainRole, main));
 
             var result = new Permutations();
 
-            if (identifiables.Count < Names.Count) return result;
+            if (identifiables.Count < Names.Count - 1) return result;
 
             var identifiableCombinations = calculateIdentifiableCombinations(identifiables);
 
@@ -41,6 +40,7 @@ namespace Rolling
                 foreach (var identifiable in combination)
                 {
                     var roles = new Roles(Names);
+                    roles.Match(MainRole, main);
 
                     roles.Match(Names.First(), identifiable);
                     var remainingNames = roles.Unmatched;
@@ -53,7 +53,7 @@ namespace Rolling
             return result;
         }
 
-        protected Descriptor(params string[] roles)
+        private Descriptor(params string[] roles)
         {
             Names = new HashSet<string>(roles);
         }

@@ -4,12 +4,19 @@ namespace Rolling.Test
 {
     public class DescriptorShould
     {
+        private Identifiable Main;
+
+        public DescriptorShould()
+        {
+            Main = new Identifiable("Main");
+        }
+
         [Fact]
         public void ReturnValidPermutationsForEmptyDescriptor()
         {
             var descriptor = Descriptor.Empty;
 
-            var permutations = descriptor.GetPermutations(new HashSet<IIdentifiable>());
+            var permutations = descriptor.GetPermutations(Main, new HashSet<IIdentifiable>());
 
             Assert.NotNull(permutations);
             Assert.True(permutations.Any);
@@ -18,7 +25,7 @@ namespace Rolling.Test
             var roles = permutations.Roles.First();
 
             Assert.NotNull(roles);
-            Assert.True(roles.IsEmpty);
+            Assert.True(roles.AllMatched);
         }
 
         [Fact]
@@ -26,7 +33,7 @@ namespace Rolling.Test
         {
             var descriptor = Descriptor.New("single");
 
-            var permutations = descriptor.GetPermutations(new HashSet<IIdentifiable>
+            var permutations = descriptor.GetPermutations(Main, new HashSet<IIdentifiable>
             {
                 new Identifiable("one")
             });
@@ -38,10 +45,9 @@ namespace Rolling.Test
             var roles = permutations.Roles.First();
 
             Assert.NotNull(roles);
-            Assert.False(roles.IsEmpty);
             Assert.True(roles.AllMatched);
 
-            Assert.True(roles.Has("single"));
+            Assert.True(roles.HasMatched("single"));
         }
 
         [Fact]
@@ -49,7 +55,7 @@ namespace Rolling.Test
         {
             var descriptor = Descriptor.New("first", "second");
 
-            var permutations = descriptor.GetPermutations(new HashSet<IIdentifiable>
+            var permutations = descriptor.GetPermutations(Main, new HashSet<IIdentifiable>
             {
                 new Identifiable("one")
             });
@@ -75,7 +81,7 @@ namespace Rolling.Test
                 new Identifiable("two")
             };
 
-            var permutations = descriptor.GetPermutations(identifiables);
+            var permutations = descriptor.GetPermutations(Main, identifiables);
 
             Assert.NotNull(permutations);
             Assert.True(permutations.Any);
@@ -83,11 +89,9 @@ namespace Rolling.Test
 
             foreach (var roles in permutations.Roles)
             {
-                Assert.False(roles.IsEmpty);
-
                 foreach (var name in names)
                 {
-                    Assert.True(roles.Has(name));
+                    Assert.True(roles.HasMatched(name));
                 }
             }
         }
@@ -111,7 +115,7 @@ namespace Rolling.Test
                 new Identifiable("three")
             };
 
-            var permutations = descriptor.GetPermutations(identifiables);
+            var permutations = descriptor.GetPermutations(Main, identifiables);
 
             Assert.NotNull(permutations);
             Assert.True(permutations.Any);
@@ -119,11 +123,9 @@ namespace Rolling.Test
 
             foreach (var roles in permutations.Roles)
             {
-                Assert.False(roles.IsEmpty);
-
                 foreach (var name in names)
                 {
-                    Assert.True(roles.Has(name));
+                    Assert.True(roles.HasMatched(name));
                 }
             }
         }
@@ -149,7 +151,7 @@ namespace Rolling.Test
                 new Identifiable("four")
             };
 
-            var permutations = descriptor.GetPermutations(identifiables);
+            var permutations = descriptor.GetPermutations(Main, identifiables);
 
             Assert.NotNull(permutations);
             Assert.True(permutations.Any);
@@ -157,11 +159,9 @@ namespace Rolling.Test
 
             foreach (var roles in permutations.Roles)
             {
-                Assert.False(roles.IsEmpty);
-
                 foreach (var name in names)
                 {
-                    Assert.True(roles.Has(name));
+                    Assert.True(roles.HasMatched(name));
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace Rolling.Test
                 identifiables.Add(new Identifiable("identifiable" + i.ToString()));
             }
 
-            var permutations = descriptor.GetPermutations(identifiables);
+            var permutations = descriptor.GetPermutations(Main, identifiables);
 
             Assert.NotNull(permutations);
             Assert.True(permutations.Any);

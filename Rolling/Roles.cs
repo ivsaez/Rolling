@@ -13,9 +13,7 @@ namespace Rolling
             .Where(v => v is not null)
             .ToList()!;
 
-        public bool IsEmpty => !roles.Any();
-
-        public bool AllMatched => IsEmpty || !roles.Values.Any(v => v is null);
+        public bool AllMatched => !roles.Values.Any(v => v is null);
 
         public IEnumerable<string> Unmatched => roles
             .Keys
@@ -25,6 +23,10 @@ namespace Rolling
         public Roles(ISet<string> roleNames)
         {
             roles = new Dictionary<string, IIdentifiable?>();
+
+            if (!roleNames.Contains(Descriptor.MainRole))
+                roles.Add(Descriptor.MainRole, null);
+
             foreach (var item in roleNames)
             {
                 roles.Add(item, null);
@@ -64,8 +66,8 @@ namespace Rolling
             return elem;
         }
 
-        public bool Has(string role) =>
-            roles.ContainsKey(role);
+        public bool HasMatched(string role) =>
+            roles.ContainsKey(role) && !(roles[role] is null);
 
         public bool Matched(IIdentifiable identifiable) =>
             roles.Values.Contains(identifiable);
