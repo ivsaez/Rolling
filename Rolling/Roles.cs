@@ -8,7 +8,7 @@ namespace Rolling
 
         public IEnumerable<string> RoleNames => roles.Keys;
 
-        public IEnumerable<IIdentifiable> Agents => roles
+        public IEnumerable<IIdentifiable> Matchers => roles
             .Values
             .Where(v => v is not null)
             .ToList()!;

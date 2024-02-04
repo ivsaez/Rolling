@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/ivsaez/Rolling</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
