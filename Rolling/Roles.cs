@@ -72,6 +72,17 @@ namespace Rolling
         public bool Matched(IIdentifiable identifiable) =>
             roles.Values.Contains(identifiable);
 
+        public string? MatchedRole(IIdentifiable matched)
+        {
+            foreach (var role in RoleNames)
+            {
+                if (Get(role)!.Id == matched.Id)
+                    return role;
+            }
+
+            return null;
+        }
+
         public Roles Copy()
         {
             var copy = Empty;
