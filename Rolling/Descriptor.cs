@@ -19,6 +19,8 @@ namespace Rolling
             return new Descriptor(roles);
         }
 
+        public bool Has(string role) => role == MainRole || Names.Contains(role);
+
         public bool IsMatched(Roles roles) =>
             Names.All(name => roles.HasMatched(name))
             && roles.HasMatched(MainRole);
