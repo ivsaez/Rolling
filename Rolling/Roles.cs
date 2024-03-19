@@ -83,6 +83,9 @@ namespace Rolling
             return null;
         }
 
+        public bool HasSpecifics(params (string Role, string Id)[] pairs) =>
+            pairs.All(pair => HasMatched(pair.Role) && Get<IIdentifiable>(pair.Role).Id == pair.Id);
+
         public Roles Copy()
         {
             var copy = Empty;
