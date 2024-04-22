@@ -37,10 +37,10 @@ namespace RollingLang
                 rolenaming.Add(elem.MatchedRole(agent)!, agent.Name);
 
             foreach (var item in items)
-                rolenaming.Add(elem.MatchedRole(item)!, new ItemDescriptor(item).Name);
+                rolenaming.Add(elem.MatchedRole(item)!, new ItemDescriptor(item).ArticledName(true));
 
             foreach (var mapped in mappeds)
-                rolenaming.Add(elem.MatchedRole(mapped)!, new MappedDescriptor(mapped).Name);
+                rolenaming.Add(elem.MatchedRole(mapped)!, new MappedDescriptor(mapped).ArticledName);
 
             return rolenaming;
         }
