@@ -191,6 +191,43 @@ namespace Rolling.Test
             Assert.NotNull(permutations);
             Assert.True(permutations.Any);
         }
+
+        [Fact]
+        public void MisionCaseTest()
+        {
+            var names = new string[]
+            {
+                "thing",
+                "door"
+            };
+
+            var descriptor = Descriptor.New(names);
+
+            var identifiables = new HashSet<IIdentifiable>
+            {
+                new Identifiable("rinonera"),
+                new Identifiable("salita"),
+                new Identifiable("tarjetaBlanca"),
+                new Identifiable("fluorescenteSalita"),
+                new Identifiable("mesaSalita"),
+                new Identifiable("escotilla"),
+                new Identifiable("puertaSalita")
+            };
+
+            var permutations = descriptor.GetPermutations(Main, identifiables);
+
+            Assert.NotNull(permutations);
+            Assert.True(permutations.Any);
+            Assert.Equal(42, permutations.Roles.Count());
+
+            foreach (var roles in permutations.Roles)
+            {
+                foreach (var name in names)
+                {
+                    Assert.True(roles.HasMatched(name));
+                }
+            }
+        }
     }
 
     internal class Identifiable : IIdentifiable

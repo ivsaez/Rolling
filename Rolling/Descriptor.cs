@@ -110,12 +110,12 @@ namespace Rolling
                 return;
             }
 
-            var copyRoles = roles.Copy();
-
             foreach (var identifiable in identifiables)
             {
+                var copyRoles = roles.Copy();
+
                 copyRoles.Match(secondarys.First(), identifiable);
-                var remainingSecondarys =copyRoles.Unmatched;
+                var remainingSecondarys = copyRoles.Unmatched;
                 var remainingIdentifiables = identifiables.Where(x => !copyRoles.Matched(x));
 
                 fillRemainingPermutations(permutations, copyRoles, remainingSecondarys, remainingIdentifiables);
